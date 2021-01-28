@@ -25,6 +25,7 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
@@ -52,42 +53,6 @@ public class UserService {
     public Boolean matchesPasswords(String hashedPassword1, String hashedPassword2){
         return bCryptPasswordEncoder.matches(hashedPassword1, hashedPassword2);
     }
-
-    //public Integer verifyJWT(){
-
-    //}
-
-/*    public String generateJWT(User user){
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-        Claims claims = Jwts.claims();
-        claims.setIssuer("covid-tracker");
-        claims.setSubject(user.getEmail());
-
-        Calendar calendar = Calendar.getInstance();
-        claims.setIssuedAt(calendar.getTime());
-        calendar.add(Calendar.MINUTE, 2);
-        claims.setExpiration(calendar.getTime());
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .signWith(key)
-                .compact();
-    }
-
-    public Map<String, Object> parseToken(String token){
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        JwtParser parser = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build();
-        Claims claims = parser
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }*/
-
-
 
     public int register(User user){
         Optional<User> userMaybe = findUserByEmail(user.getEmail());

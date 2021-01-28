@@ -1,6 +1,7 @@
 package com.jordanho.authentication.api;
 
 import com.jordanho.authentication.model.User;
+import com.jordanho.authentication.service.EmailService;
 import com.jordanho.authentication.service.JWTService;
 import com.jordanho.authentication.service.UserService;
 import net.minidev.json.JSONObject;
@@ -21,6 +22,9 @@ public class UserController {
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private EmailService emailService;
+
     @GetMapping(path="/authorized")
     @CrossOrigin
     public ResponseEntity<?> test1(){
@@ -28,7 +32,6 @@ public class UserController {
         responseBody.put("timestamp", new java.util.Date());
         responseBody.put("test", "authorized");
         responseBody.put("path", "/api/user");
-
         return new ResponseEntity<String>(responseBody.toString(), HttpStatus.OK);
     }
 
@@ -39,6 +42,7 @@ public class UserController {
         responseBody.put("timestamp", new java.util.Date());
         responseBody.put("test", "unauthorized");
         responseBody.put("path", "/api/user");
+        emailService.sendEmail();
         return new ResponseEntity<String>(responseBody.toString(), HttpStatus.OK);
     }
 
